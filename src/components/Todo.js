@@ -9,6 +9,7 @@ import List from './List'
     // pass in properties to children
 export default class Todo extends React.Component { constructor() {
   super()
+  this.state = { List: [] }
 }
   render() {
     return (<div className = "container">
