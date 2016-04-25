@@ -15,7 +15,7 @@ export default class Todo extends React.Component { constructor() {
     return (<div className = "container">
    <div className ="row">
     <h1>Todo</h1>
-    <Input />
+    <Input /> 
    </div>
    <div className ="row">
     <List />
