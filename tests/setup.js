@@ -6,6 +6,7 @@ import sinon from 'sinon'
 import chai from 'chai'
 import sinonChai from 'sinon-chai'
 import chaiEnzyme from 'chai-enzyme'
+import deepfreeze from 'deep-freeze'
 
 chai.use(sinonChai)
 chai.use(chaiEnzyme())
