@@ -19,7 +19,7 @@ export default class Todo extends React.Component { constructor() {
   handleSubmit() {
     // const allTodo = this.state.List.concat([newItem]);
     const Newitem = this.state.value
-    const Newarray = [...this.state.List, Newitem]
+    const Newarray = [Newitem]
     this.setState({ List: Newarray })
   }
   render() {
