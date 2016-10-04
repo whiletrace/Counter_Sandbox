@@ -1,4 +1,5 @@
 import { createStore } from 'redux'
+
 const todoReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -20,6 +21,17 @@ const todoReducer = (state, action) => {
       return state
   }
 }
+const visibiltyFilter = (
+  state = 'SHOW_ALL',
+  action
+  ) => {
+  switch (action.type) {
+    case 'SET_VISIBLITY_FILTER':
+    return action.filter
+    default: return state
+  }
+}
+
 const todosReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -33,7 +45,36 @@ const todosReducer = (state = [], action) => {
       return state
   }
 }
-const store = createStore(todosReducer)
+
+/*const todoApp = (state = [], action) => {
+  return {
+    todosReducer: todosReducer(
+      state.todosReducer,
+      action
+      ),
+    visibiltyFilter: visibiltyFilter(
+      state.visibiltyFilter,
+      action
+      ),
+  }
+    
+} 
+*/
+  const todoApp = () => {return(state = [], action)=>{
+     todosReducer: todosReducer(
+      state.todosReducer,
+      action
+      ),
+    visibiltyFilter: visibiltyFilter(
+      state.visibiltyFilter,
+      action
+      )
+  }}
+ 
+
+
+
+const store = createStore(todoApp)
 console.log('Initial state:')
 console.log(store.getState())
 console.log('---------------')
@@ -60,5 +101,12 @@ store.dispatch({
   type: 'TOGGLE_TODO',
   id: 0,
 })
-
+console.log('Dispatching SET_VISIBLITY_FILTER')
+store.dispatch({
+  type: 'SET_VISIBLITY_FILTER',
+  filter: 'SHOW_COMPLETED',
+})
+console.log('Current state:')
+console.log(store.getState())
+console.log('---------------')
 export default todosReducer
