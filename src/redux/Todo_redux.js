@@ -1,4 +1,5 @@
 import { createStore } from 'redux'
+import {combineReducers} from 'redux'
 
 const todoReducer = (state, action) => {
   switch (action.type) {
@@ -32,7 +33,7 @@ const visibiltyFilter = (
   }
 }
 
-const todosReducer = (state = [], action) => {
+ const todosReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
@@ -45,7 +46,10 @@ const todosReducer = (state = [], action) => {
       return state
   }
 }
-
+const todoApp = combineReducers({
+  todosReducer,
+  visibiltyFilter
+})
 /*const todoApp = (state = [], action) => {
   return {
     todosReducer: todosReducer(
@@ -60,16 +64,7 @@ const todosReducer = (state = [], action) => {
     
 } 
 */
-  const todoApp = () => {return(state = [], action)=>{
-     todosReducer: todosReducer(
-      state.todosReducer,
-      action
-      ),
-    visibiltyFilter: visibiltyFilter(
-      state.visibiltyFilter,
-      action
-      )
-  }}
+  
  
 
 
