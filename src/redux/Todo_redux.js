@@ -7,16 +7,15 @@ const todoReducer = (state, action) => {
       return {
        id: action.id,
        text: action.text,
-       completed: action.completed,
+       completed: false,
       }
     case 'TOGGLE_TODO':
       if (state.id !== action.id) {
         return state
       }
       return {
-        id: action.id,
-        text: action.text,
-        completed: !state.completed,
+        ...state, 
+        completed: !state.completed
       }
     default:
       return state
@@ -45,30 +44,13 @@ const visibiltyFilter = (
     default:
       return state
   }
+  debugger
 }
+
 const todoApp = combineReducers({
   todosReducer,
   visibiltyFilter
 })
-/*const todoApp = (state = [], action) => {
-  return {
-    todosReducer: todosReducer(
-      state.todosReducer,
-      action
-      ),
-    visibiltyFilter: visibiltyFilter(
-      state.visibiltyFilter,
-      action
-      ),
-  }
-    
-} 
-*/
-  
- 
-
-
-
 const store = createStore(todoApp)
 console.log('Initial state:')
 console.log(store.getState())
@@ -86,7 +68,7 @@ console.log('Dispatching ADD_TODO')
 store.dispatch({
   type: 'ADD_TODO',
   id: 1,
-  text: 'Learn Redux',
+  text: 'go shopping',
 })
 console.log('Current state:')
 console.log(store.getState())

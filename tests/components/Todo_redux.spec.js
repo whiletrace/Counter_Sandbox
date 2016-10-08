@@ -25,11 +25,13 @@ describe('toggleTodo',function(){
  it('toggleTodo should deeply equal state after ', function(){
   const stateBefore = [
    {
+    
     id: 0,
     text: 'Learn Redux',
     completed: false
    },
    {
+
     id: 1,
     text: 'go shopping',
     completed: false
