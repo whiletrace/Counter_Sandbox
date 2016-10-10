@@ -1,38 +1,50 @@
 // imports from the form component and the list component
+import { store } from 'redux/Todo_redux'
 import React from 'react'
-import Input from './Form'
-import List from './List'
+import ReactDOM from 'react-dom'
 // This es6 syntax to initiate a Todo cla
   // set state of component
   // action handlers
   // render method
     // pass in properties to children
-export default class Todo extends React.Component { constructor() {
-  super()
-  this.state = { List: [] }
-  this.handleSubmit = this.handleSubmit.bind(this)
-  this.handleChange = this.handleChange.bind(this)
-}
-  handleChange(event) {
-    this.setState({ value: event.target.value })
-  }
-  handleSubmit() {
-    // const allTodo = this.state.List.concat([newItem]);
-    const Newitem = this.state.value
-    const Newarray = [Newitem]
-    this.setState({ List: Newarray })
-  }
+let nextTodoId = 0
+class TodoApp extends React.Component {
   render() {
-    return (<div className = "container">
-     <div className = "row">
-        <h1>Todo</h1>
-    <Input addbutton ={this.handleSubmit} value= {this.state.value}
-      handleChange ={this.handleChange}
-    />
-   </div>
-   <div className ="row">
-    <List />
-   </div>
-  </div>)
+    return (
+        <div>
+        <input ref = {node => {
+          this.input = node
+        }}
+        />
+        <button onClick = {() => {
+          store.dispatch({
+            type: 'ADD_TODO',
+            text: this.input.value,
+            Id: nextTodoId ++,
+          })
+          this.input.value = ''
+        }}
+        >
+        Add Todo
+        </button>
+        <ul>
+         {this.props.todos.map(todo =>
+          <li key = {todo.id}>
+           {todo.text}
+           </li>
+           )}
+        </ul>
+        </div>
+        )
   }
 }
+const render = () => {
+  ReactDOM.render(
+    <TodoApp
+      todos ={store.getState().todos}
+    />,
+    document.getElementById('root')
+    )
+}
+store.subscribe(render)
+render()

@@ -1,7 +1,7 @@
 import deepfreeze from 'deep-freeze'
-import todosReducer  from '../../src/redux/Todo_redux'
+import todos from '../../src/redux/Todo_redux'
 
-describe('todosReducer', function() {
+describe('todos', function() {
  it('should deep equal stateAfter', function() {
   const stateBefore = []
   const action = {
@@ -18,7 +18,7 @@ describe('todosReducer', function() {
   ];
  deepfreeze(stateBefore)
  deepfreeze(action)
- expect(todosReducer(stateBefore, action)).to.eql(stateAfter)
+ expect(todos(stateBefore, action)).to.eql(stateAfter)
  })
 })
 describe('toggleTodo',function(){
@@ -55,6 +55,6 @@ describe('toggleTodo',function(){
    ]
  deepfreeze(stateBefore)
  deepfreeze(action)
- expect(todosReducer(stateBefore, action)).to.eql(stateAfter)
+ expect(todos(stateBefore, action)).to.eql(stateAfter)
  })
 })

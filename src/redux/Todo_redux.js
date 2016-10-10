@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { combineReducers } from 'redux'
 
-const todoReducer = (state, action) => {
+const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return {
@@ -32,25 +32,25 @@ const visibiltyFilter = (
   }
 }
 
-const todosReducer = (state = [], action) => {
+const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
         ...state,
-        todoReducer(undefined, action),
+        todo(undefined, action),
       ]
     case 'TOGGLE_TODO':
-      return state.map(t => todoReducer(t, action))
+      return state.map(t => todo(t, action))
     default:
       return state
   }
 }
 
 const todoApp = combineReducers({
-  todosReducer,
+  todos,
   visibiltyFilter,
 })
-const store = createStore(todoApp)
+ export const store = createStore(todoApp)
 console.log('Initial state:')
 console.log(store.getState())
 console.log('---------------')
@@ -85,4 +85,5 @@ store.dispatch({
 console.log('Current state:')
 console.log(store.getState())
 console.log('---------------')
-export default todosReducer
+export default todos
+

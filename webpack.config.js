@@ -5,7 +5,7 @@ module.exports = {
     configFile: '.eslintrc'
   },
   entry: [
-    './src/index.js'
+    './src/components/Todo'
   ],
   module: {
     preLoaders: [
