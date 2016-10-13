@@ -50,40 +50,7 @@ const todoApp = combineReducers({
   todos,
   visibiltyFilter,
 })
- export const store = createStore(todoApp)
-console.log('Initial state:')
-console.log(store.getState())
-console.log('---------------')
-console.log('Dispatching ADD_TODO')
-store.dispatch({
-  type: 'ADD_TODO',
-  id: 0,
-  text: 'Learn Redux',
-})
-console.log('Current state:')
-console.log(store.getState())
-console.log('---------------')
-console.log('Dispatching ADD_TODO')
-store.dispatch({
-  type: 'ADD_TODO',
-  id: 1,
-  text: 'go shopping',
-})
-console.log('Current state:')
-console.log(store.getState())
-console.log('---------------')
-console.log('Dispatching TOGGLE_TODO')
-store.dispatch({
-  type: 'TOGGLE_TODO',
-  id: 0,
-})
-console.log('Dispatching SET_VISIBLITY_FILTER')
-store.dispatch({
-  type: 'SET_VISIBLITY_FILTER',
-  filter: 'SHOW_COMPLETED',
-})
-console.log('Current state:')
-console.log(store.getState())
-console.log('---------------')
+export const store = createStore(todoApp)
+
 export default todos
 

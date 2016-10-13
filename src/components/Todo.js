@@ -20,7 +20,7 @@ class TodoApp extends React.Component {
           store.dispatch({
             type: 'ADD_TODO',
             text: this.input.value,
-            Id: nextTodoId ++,
+            id: nextTodoId++,
           })
           this.input.value = ''
         }}
@@ -28,20 +28,20 @@ class TodoApp extends React.Component {
         Add Todo
         </button>
         <ul>
-         {this.props.todos.map(todo =>
-          <li key = {todo.id}
-          onClick= {() => {
-            store.dispatch({
-            type: 'TOGGLE_TODO',
-            id: todo.Id,
-          })
-        }} 
-         style = {{textDecoration:
-          todo.completed ?
-          'line-through':
-          'none '
+         {this.props.todos.map(todos =>
+          <li key = {todos.id}
+            onClick= {() => {
+              store.dispatch({
+                type: 'TOGGLE_TODO',
+                id: todos.id,
+              })
+            }}
+            style = {{ textDecoration:
+          todos.completed ?
+          'line-through' :
+          'none ',
         }}>
-           {todo.text}
+           {todos.text}
            </li>
            )}
         </ul>
@@ -52,7 +52,7 @@ class TodoApp extends React.Component {
 const render = () => {
   ReactDOM.render(
     <TodoApp
-      todos ={store.getState().todos}
+      todos = {store.getState().todos}
     />,
     document.getElementById('root')
     )
