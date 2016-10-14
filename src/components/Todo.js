@@ -96,7 +96,7 @@ class TodoApp extends React.Component {
          </FilterLink>
           {' '}
         <FilterLink
-          filter = "SHOW_ACTIVE"
+          filter = "SHOW_COMPLETED"
         >
          completed
          </FilterLink>
