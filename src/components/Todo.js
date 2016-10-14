@@ -8,8 +8,43 @@ import ReactDOM from 'react-dom'
   // render method
     // pass in properties to children
 let nextTodoId = 0
+const FilterLink = ({
+  filter,
+  children,
+}) => {
+  return (
+    <a href= "#"
+      onClick= { e => {
+        e.preventDefault()
+        store.dispatch({
+          type: 'SET_VISIBLITY_FILTER',
+          filter,
+        })
+      }}
+    >
+    {children}
+    </a>
+    )
+}
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos
+    case 'SHOW_COMPLETED':
+      return todos.filter(
+        t => t.completed)
+    case 'SHOW_ACTIVE':
+      return todos.filter(
+        t => !t.completed)
+  }
+}
+
 class TodoApp extends React.Component {
   render() {
+    const VisibleTodos = getVisibleTodos(
+      this.props.todos,
+      this.props.visibiltyFilter
+      )
     return (
         <div>
         <input ref = {node => {
@@ -28,7 +63,7 @@ class TodoApp extends React.Component {
         Add Todo
         </button>
         <ul>
-         {this.props.todos.map(todos =>
+         {VisibleTodos.map(todos =>
           <li key = {todos.id}
             onClick= {() => {
               store.dispatch({
@@ -45,14 +80,37 @@ class TodoApp extends React.Component {
            </li>
            )}
         </ul>
+        <p>
+        Show:
+        {' '}
+        <FilterLink
+          filter = "SHOW_ALL"
+        >
+         All
+         </FilterLink>
+         {' '}
+        <FilterLink
+          filter = "SHOW_ACTIVE"
+        >
+         Active
+         </FilterLink>
+          {' '}
+        <FilterLink
+          filter = "SHOW_ACTIVE"
+        >
+         completed
+         </FilterLink>
+         </p>
         </div>
-        )
+      )
   }
 }
+
+
 const render = () => {
   ReactDOM.render(
     <TodoApp
-      todos = {store.getState().todos}
+      {...store.getState()}
     />,
     document.getElementById('root')
     )
