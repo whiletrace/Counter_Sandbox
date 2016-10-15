@@ -1,22 +1,37 @@
+// importing neccessary node modules
+// createSTore
+// and combine Reducers
 import { createStore } from 'redux'
 import { combineReducers } from 'redux'
-
+// this reducer was extracted from original reducer renamed todos
+// in doing so began implementing reducer compositional pattern
+// takes state and action as arguments governs individual todos
 const todo = (state, action) => {
-  switch (action.type) {
+// switch statement which takes the type property of the action object as a argument
+  switch (action.type) {// case for type property ADD_TODO
     case 'ADD_TODO':
+// returns an object with keys of id, text, and completed
+// with values corresponding to the relevant action object
       return {
         id: action.id,
         text: action.text,
         completed: false,
       }
+// for the case of TOGGLE_TODO
     case 'TOGGLE_TODO':
+// if the key id of the action object does not match the
+// key in the state object
+// it will return the state object
       if (state.id !== action.id) {
         return state
       }
+// if the action object id being evaluated and the state object id
+// will return the opposite value of the completed key of the state object
       return {
         ...state,
         completed: !state.completed,
       }
+
     default:
       return state
   }
@@ -31,26 +46,38 @@ const visibiltyFilter = (
     default: return state
   }
 }
-
+// this is original reducer that todo was extracted from
+// takes state which is an empty array and action as arguments
 const todos = (state = [], action) => {
   switch (action.type) {
+// in case of type ADD_TODO
     case 'ADD_TODO':
+// returns an array using the spread operator to concatenate
+// state and a function call to the todo reducer to populate the array
       return [
         ...state,
+// a function call to the todo reducer
         todo(undefined, action),
       ]
+// in the case of type TOGGLE_TODO of action object
     case 'TOGGLE_TODO':
+// returns a  new array using the mapping method on the state
+// array which calls the todo reducer on each index of the
+// state array
       return state.map(t => todo(t, action))
     default:
       return state
   }
 }
-
+// using a built in redux function called combine reducers
+// combines the reducers todos, and visibility to one reducer named TodoApp
 const todoApp = combineReducers({
   todos,
   visibiltyFilter,
 })
+// creates the redux store which is exported
 export const store = createStore(todoApp)
-
+// export of the todos reducer
+// which is used in my testing module Todo_redux.spec.js
 export default todos
 
