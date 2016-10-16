@@ -19,6 +19,7 @@ const FilterLink = ({
   currentFilter,
   filter,
   children,
+  onClick,
 // when rendered returns the links for each filter behavior
 }) => {
 // if filter equals current Filter returns span instead of link
@@ -35,16 +36,102 @@ const FilterLink = ({
 // children is passed down we can modify text
       onClick= { e => {
         e.preventDefault()
-        store.dispatch({
-          type: 'SET_VISIBLITY_FILTER',
-          filter,
-        })
+        onClick = (filter)
       }}
     >
     {children}
     </a>
     )
 }
+// this is the first in refactor extracting a todo component which will render a single list item
+// it will be a function
+const Todo = ({
+  onClick,
+  completed,
+  text,
+}) => (
+  <li
+    onClick= {onClick}
+    style = {{
+      textDecoration:
+          completed ?
+          'line-through' :
+          'none ',
+    }}
+  >
+    {text}
+  </li>
+           )
+const TodoList = ({
+  todos,
+  onTodoClick,
+}) => (
+   <ul>
+   {todos.map(todo =>
+    <Todo
+      key ={todo.id}
+      {...todo}
+      onClick={() => onTodoClick(todo.id)}
+    />
+     )}
+   </ul>
+)
+const AddTodo = ({
+  onAddClick,
+}) => {
+  let input
+  return (
+  <div>
+    <input ref = {node => {
+      input = node
+    }}
+    />
+        <button onClick = {() => {
+          onAddClick(input.value)
+          input.value = ''
+        }}
+        >
+        Add Todo
+        </button>
+  </div>
+  )
+}
+const Footer = ({
+  visibilityFilter,
+  onFilterClick,
+}) => (
+  <p>
+{ /* A paragraph element is created using the filterlink component
+the filter props are given values here with three choices
+SHOW_ALL SHOW_ACTIVE SHOW_COMPLETED
+passing  currentFilter so each will know which filter is being executed
+and apply the correct styling to it*/ }
+        Show:
+        {' '}
+        <FilterLink
+          filter = "SHOW_ALL"
+          currentFilter = {visibilityFilter}
+          onClick = {onFilterClick}
+        >
+         All
+         </FilterLink>
+         {' '}
+        <FilterLink
+          filter = "SHOW_ACTIVE"
+          currentFilte r= {visibilityFilter}
+          onClick = {onFilterClick}
+        >
+         Active
+         </FilterLink>
+          {' '}
+        <FilterLink
+          filter = "SHOW_COMPLETED"
+          currentFilter = {visibilityFilter}
+          onClick = {onFilterClick}
+        >
+         completed
+         </FilterLink>
+         </p>)
 //  this function sets behavior for the filter links using a switch statement
 // case todos and filter are arguments
 const getVisibleTodos = (todos, filter) => {
@@ -69,93 +156,46 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 // this is the main react component using es6 class syntax
-class TodoApp extends React.Component {
-  render() {
-// destructuring todos and visibilityFilter from the props
-// so can access them directly without this.props
-    const {
-      todos,
-      visibilityFilter,
-    } = this.props
+const TodoApp = ({
+  todos,
+  visibilityFilter,
+}) => (
+   <div>
+    <AddTodo
+      onAddClick= {text =>
+       store.dispatch({
+         type: 'ADD_TODO',
+         id: nextTodoId++,
+         text,
+       })
+    }
+    />
+    <TodoList
+      todos = {
+        getVisibleTodos(
+  todos,
+  visibilityFilter
+  )
+      }
+      onTodoClick ={id =>
+      store.dispatch({
+        type: 'TOGGLE_TODO',
+        id,
+      })
+    }
+    />
 
-// this is the function call to filter todos before rendering with todos
-// and visibilityFilter from the props
-    const VisibleTodos = getVisibleTodos(
-      todos,
-      visibilityFilter
-      )
-    return (
-        <div>
-        <input ref = {node => {
-          this.input = node
-        }}
-        />
-        <button onClick = {() => {
-          store.dispatch({
-            type: 'ADD_TODO',
-            text: this.input.value,
-            id: nextTodoId++,
-          })
-          this.input.value = ''
-        }}
-        >
-        Add Todo
-        </button>
-        <ul>
-{/* mapping VisibleTodos which creates
-a new array after the function has been called upon each todo
- the function  gives each new todo a key as per the action */ }
-         {VisibleTodos.map(todos =>
-          <li key = {todos.id}
-            onClick= {() => {
-              store.dispatch({
-                type: 'TOGGLE_TODO',
-                id: todos.id,
-              })
-            }}
-            style = {{ textDecoration:
-          todos.completed ?
-          'line-through' :
-          'none ',
-        }}>
-           {todos.text}
-           </li>
-           )}
-        </ul>
-
-        <p>
-{ /* A paragraph element is created using the filterlink component
-the filter props are given values here with three choices
-SHOW_ALL SHOW_ACTIVE SHOW_COMPLETED
-passing  currentFilter so each will know which filter is being executed
-and apply the correct styling to it*/}
-        Show:
-        {' '}
-        <FilterLink
-          filter = "SHOW_ALL"
-          currentFilter = {visibilityFilter}
-        >
-         All
-         </FilterLink>
-         {' '}
-        <FilterLink
-          filter = "SHOW_ACTIVE"
-          currentFilte r= {visibilityFilter}
-        >
-         Active
-         </FilterLink>
-          {' '}
-        <FilterLink
-          filter = "SHOW_COMPLETED"
-          currentFilter = {visibilityFilter}
-        >
-         completed
-         </FilterLink>
-         </p>
-        </div>
-      )
-  }
-}
+    <Footer
+      visibilityFilter={visibilityFilter}
+      onFilterClick= {filter =>
+      store.dispatch({
+        type: 'SET_VISIBLITY_FILTER',
+        filter,
+      })
+    }
+    />
+    </div>
+  )
 // renders changes to the DOM
 // spread over the state field so all the state is passed as a prop
 // to the TodoApp component
@@ -168,7 +208,7 @@ const render = () => {
     )
 }
 // subscribing the redux store to the render constant
-// allows the store manage state through various
+// allows the store manage state through by
 // dispatching actions from the the reducer at various
 // instances in the react component
 store.subscribe(render)
