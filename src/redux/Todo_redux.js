@@ -8,7 +8,8 @@ import { combineReducers } from 'redux'
 // takes state and action as arguments governs individual todos
 const todo = (state, action) => {
 // switch statement which takes the type property of the action object as a argument
-  switch (action.type) {// case for type property ADD_TODO
+  switch (action.type) {
+// case for type property ADD_TODO
     case 'ADD_TODO':
 // returns an object with keys of id, text, and completed
 // with values corresponding to the relevant action object
@@ -36,7 +37,7 @@ const todo = (state, action) => {
       return state
   }
 }
-const visibiltyFilter = (
+const visibilityFilter = (
   state = 'SHOW_ALL',
   action
   ) => {
@@ -73,7 +74,7 @@ const todos = (state = [], action) => {
 // combines the reducers todos, and visibility to one reducer named TodoApp
 const todoApp = combineReducers({
   todos,
-  visibiltyFilter,
+  visibilityFilter,
 })
 // creates the redux store which is exported
 export const store = createStore(todoApp)
