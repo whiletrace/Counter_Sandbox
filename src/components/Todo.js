@@ -15,15 +15,14 @@ let nextTodoId = 0
 // a functional component that takes filter prop which is a string
 // Children which is the contents of the link
 // passing currentFilter as a prop
-const FilterLink = ({
-  currentFilter,
-  filter,
+const Link = ({
+  active,
   children,
   onClick,
 // when rendered returns the links for each filter behavior
 }) => {
 // if filter equals current Filter returns span instead of link
-  if (filter === currentFilter) {
+  if (active) {
     return <span>{children}</span>
   }
   return (
@@ -36,12 +35,43 @@ const FilterLink = ({
 // children is passed down we can modify text
       onClick= { e => {
         e.preventDefault()
-        onClick = (filter)
+        onClick()
       }}
     >
     {children}
     </a>
     )
+}
+class FilterLink extends React.Component { 
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() =>
+       this.forceUpdate()
+      )
+  }
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  render(){
+    const props = this.props
+    const state = store.getState()
+    return(
+      <Link
+       active = {
+        props.filter === 
+        state.visibilityFilter
+       }
+       onClick={() =>
+        store.dispatch({
+          type: 'SET_VISIBLITY_FILTER',
+          filter: props.filter,
+        })
+       }
+      >
+      {props.children}
+      </Link>
+      )
+  }
 }
 // this is the first in refactor extracting a todo component which will render a single list item
 // it will be a function
@@ -96,10 +126,7 @@ const AddTodo = ({
   </div>
   )
 }
-const Footer = ({
-  visibilityFilter,
-  onFilterClick,
-}) => (
+const Footer = () => (
   <p>
 { /* A paragraph element is created using the filterlink component
 the filter props are given values here with three choices
@@ -110,24 +137,21 @@ and apply the correct styling to it*/ }
         {' '}
         <FilterLink
           filter = "SHOW_ALL"
-          currentFilter = {visibilityFilter}
-          onClick = {onFilterClick}
+          
         >
          All
          </FilterLink>
          {' '}
         <FilterLink
           filter = "SHOW_ACTIVE"
-          currentFilte r= {visibilityFilter}
-          onClick = {onFilterClick}
+          
         >
          Active
          </FilterLink>
           {' '}
         <FilterLink
           filter = "SHOW_COMPLETED"
-          currentFilter = {visibilityFilter}
-          onClick = {onFilterClick}
+          
         >
          completed
          </FilterLink>
@@ -185,15 +209,7 @@ const TodoApp = ({
     }
     />
 
-    <Footer
-      visibilityFilter={visibilityFilter}
-      onFilterClick= {filter =>
-      store.dispatch({
-        type: 'SET_VISIBLITY_FILTER',
-        filter,
-      })
-    }
-    />
+    <Footer/>
     </div>
   )
 // renders changes to the DOM
