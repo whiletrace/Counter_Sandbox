@@ -106,9 +106,7 @@ const TodoList = ({
      )}
    </ul>
 )
-const AddTodo = ({
-  onAddClick,
-}) => {
+const AddTodo = () => {
   let input
   return (
   <div>
@@ -117,8 +115,12 @@ const AddTodo = ({
     }}
     />
         <button onClick = {() => {
-          onAddClick(input.value)
-          input.value = ''
+          store.dispatch({
+         type: 'ADD_TODO',
+         id: nextTodoId++,
+         text:input.value,
+       })          
+         input.value = ''
         }}
         >
         Add Todo
@@ -179,53 +181,56 @@ const getVisibleTodos = (todos, filter) => {
       return todos
   }
 }
-// this is the main react component using es6 class syntax
-const TodoApp = ({
-  todos,
-  visibilityFilter,
-}) => (
-   <div>
-    <AddTodo
-      onAddClick= {text =>
-       store.dispatch({
-         type: 'ADD_TODO',
-         id: nextTodoId++,
-         text,
-       })
-    }
-    />
-    <TodoList
-      todos = {
-        getVisibleTodos(
-  todos,
-  visibilityFilter
-  )
-      }
-      onTodoClick ={id =>
-      store.dispatch({
+
+class VisibleTodoList extends React.Component {
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() =>
+       this.forceUpdate()
+      )
+  }
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+  render() {
+    const props = this.props
+    const state = store.getState()
+    return (
+      <TodoList
+        todos = {
+          getVisibleTodos(
+           state.todos,
+           state.visibilityFilter
+            )
+        }
+        onTodoClick = { id =>
+         store.dispatch({
         type: 'TOGGLE_TODO',
         id,
       })
     }
     />
-
+      )
+  }
+}
+// this is the main react component using es6 class syntax
+const TodoApp = () => (
+   <div>
+    <AddTodo/>
+    <VisibleTodoList/>
     <Footer/>
     </div>
   )
 // renders changes to the DOM
 // spread over the state field so all the state is passed as a prop
 // to the TodoApp component
-const render = () => {
+
   ReactDOM.render(
-    <TodoApp
-      {...store.getState()}
-    />,
+    <TodoApp />,
     document.getElementById('root')
     )
-}
+
 // subscribing the redux store to the render constant
 // allows the store manage state through by
 // dispatching actions from the the reducer at various
 // instances in the react component
-store.subscribe(render)
-render()
+
