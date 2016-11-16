@@ -7,7 +7,10 @@
 // from this version of the app
 
 // imports
-import { store } from 'redux/Todo_redux'
+import { connect } from 'react-redux'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { todoApp } from 'redux/Todo_redux'
 import React from 'react'
 import ReactDOM from 'react-dom'
 // a variable that is called to set the index key for each new todo
@@ -42,8 +45,10 @@ const Link = ({
     </a>
     )
 }
+/*
 class FilterLink extends React.Component { 
   componentDidMount() {
+    const {store} = this.context
     this.unsubscribe = store.subscribe(() =>
        this.forceUpdate()
       )
@@ -54,6 +59,7 @@ class FilterLink extends React.Component {
 
   render(){
     const props = this.props
+    const { store } = this.context
     const state = store.getState()
     return(
       <Link
@@ -73,6 +79,41 @@ class FilterLink extends React.Component {
       )
   }
 }
+FilterLink.contextTypes = {
+  store: React.PropTypes.object
+}
+*/
+ const mapStateTolinkProps = (
+  state,
+  ownprops
+  ) => {
+  return {
+    active: 
+        ownprops.filter === 
+        state.visibilityFilter
+       }
+  }
+ const mapDispatchToLinkProps = (
+   dispatch,
+   ownprops
+  ) => {
+  return {
+    onClick:() => {
+      dispatch({
+          type: 'SET_VISIBLITY_FILTER',
+          filter: ownprops.filter,
+        })
+    }
+        
+       }
+  }
+ const FilterLink = connect(
+ mapStateTolinkProps,
+ mapDispatchToLinkProps
+  )(Link)
+  
+
+
 // this is the first in refactor extracting a todo component which will render a single list item
 // it will be a function
 const Todo = ({
@@ -106,7 +147,7 @@ const TodoList = ({
      )}
    </ul>
 )
-const AddTodo = () => {
+let AddTodo = ( {dispatch} ) => {
   let input
   return (
   <div>
@@ -115,7 +156,7 @@ const AddTodo = () => {
     }}
     />
         <button onClick = {() => {
-          store.dispatch({
+         dispatch({
          type: 'ADD_TODO',
          id: nextTodoId++,
          text:input.value,
@@ -128,6 +169,9 @@ const AddTodo = () => {
   </div>
   )
 }
+AddTodo = connect()(AddTodo)
+
+
 const Footer = () => (
   <p>
 { /* A paragraph element is created using the filterlink component
@@ -140,13 +184,14 @@ and apply the correct styling to it*/ }
         <FilterLink
           filter = "SHOW_ALL"
           
+          
         >
          All
          </FilterLink>
          {' '}
         <FilterLink
           filter = "SHOW_ACTIVE"
-          
+         
         >
          Active
          </FilterLink>
@@ -182,8 +227,10 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
+/* 
 class VisibleTodoList extends React.Component {
   componentDidMount() {
+    const { store } = this.context
     this.unsubscribe = store.subscribe(() =>
        this.forceUpdate()
       )
@@ -193,6 +240,7 @@ class VisibleTodoList extends React.Component {
   }
   render() {
     const props = this.props
+    const { store } = this.context
     const state = store.getState()
     return (
       <TodoList
@@ -212,20 +260,51 @@ class VisibleTodoList extends React.Component {
       )
   }
 }
+VisibleTodoList.contextTypes = {
+  store: React.PropTypes.object
+} 
+*/
+
+const mapStateToTodoListProps = (state) => {
+  return {
+    todos: getVisibleTodos(
+           state.todos,
+           state.visibilityFilter
+            )
+  }
+}
+const mapDispatchToTodoListProps = (dispatch) => {
+  return {
+    onTodoClick: (id) => {
+         dispatch({
+        type: 'TOGGLE_TODO',
+        id,
+      })
+    }
+  }
+}
+const VisibleTodoList = connect(
+ mapStateToTodoListProps,
+ mapDispatchToTodoListProps
+  )(TodoList)
+
 // this is the main react component using es6 class syntax
 const TodoApp = () => (
    <div>
-    <AddTodo/>
-    <VisibleTodoList/>
-    <Footer/>
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
     </div>
   )
+
+
 // renders changes to the DOM
 // spread over the state field so all the state is passed as a prop
 // to the TodoApp component
-
-  ReactDOM.render(
-    <TodoApp />,
+ReactDOM.render (
+    <Provider store = { createStore(todoApp) }>
+     <TodoApp />
+    </Provider>,
     document.getElementById('root')
     )
 

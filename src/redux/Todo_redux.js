@@ -1,7 +1,7 @@
 // importing neccessary node modules
 // createSTore
 // and combine Reducers
-import { createStore } from 'redux'
+
 import { combineReducers } from 'redux'
 // this reducer was extracted from original reducer renamed todos
 // in doing so began implementing reducer compositional pattern
@@ -72,12 +72,11 @@ const todos = (state = [], action) => {
 }
 // using a built in redux function called combine reducers
 // combines the reducers todos, and visibility to one reducer named TodoApp
-const todoApp = combineReducers({
+ export const todoApp = combineReducers({
   todos,
   visibilityFilter,
 })
 // creates the redux store which is exported
-export const store = createStore(todoApp)
 // export of the todos reducer
 // which is used in my testing module Todo_redux.spec.js
 export default todos
