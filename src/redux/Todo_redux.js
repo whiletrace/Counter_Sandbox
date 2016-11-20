@@ -72,7 +72,7 @@ const todos = (state = [], action) => {
 }
 // using a built in redux function called combine reducers
 // combines the reducers todos, and visibility to one reducer named TodoApp
- export const todoApp = combineReducers({
+export const todoApp = combineReducers({
   todos,
   visibilityFilter,
 })
