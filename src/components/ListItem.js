@@ -16,3 +16,9 @@
     {text}
   </li>
            )
+
+ Todo.propTypes = {
+   onClick: React.PropTypes.func,
+   text: React.PropTypes.string,
+   completed: React.PropTypes.bool,
+ }

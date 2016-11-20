@@ -14,3 +14,7 @@ export const TodoList = ({
      )}
    </ul>
 )
+TodoList.propTypes = {
+  todos: React.PropTypes.array,
+  onTodoClick: React.PropTypes.func,
+}

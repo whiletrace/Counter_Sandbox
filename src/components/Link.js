@@ -26,3 +26,9 @@ export const Link = ({
     </a>
     )
 }
+
+Link.propTypes = {
+  active: React.PropTypes.bool,
+  children: React.PropTypes.node,
+  onClick: React.PropTypes.func,
+}
