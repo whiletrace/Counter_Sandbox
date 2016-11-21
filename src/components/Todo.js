@@ -15,6 +15,8 @@ import ReactDOM from 'react-dom'
 import VisibleTodoList from 'containers/VisibleTodoList'
 import AddTodo from 'containers/AddTodo'
 import { Footer } from './Footer'
+import { loadState, saveState } from 'localstorage'
+import throttle from 'lodash/throttle'
 // a variable that is called to set the index key for each new todo
 
 // a functional component that takes filter prop which is a string
@@ -36,8 +38,18 @@ const TodoApp = () => (
 // renders changes to the DOM
 // spread over the state field so all the state is passed as a prop
 // to the TodoApp component
+const persistantState = loadState()
+const store = createStore(
+  todoApp,
+  persistantState
+  )
+store.subscribe(throttle(() => {
+  saveState({
+    todos: store.getState().todos,
+  })
+}, 1000))
 ReactDOM.render(
-    <Provider store = { createStore(todoApp) }>
+    <Provider store = { store }>
      <TodoApp />
     </Provider>,
     document.getElementById('root')
