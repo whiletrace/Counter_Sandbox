@@ -38,7 +38,12 @@ FilterLink.contextTypes = {
   store: React.PropTypes.object
 }
 */
-const mapStateTolinkProps = (
+
+const setVisibilityFilter = (filter) => ({
+  type: 'SET_VISIBLITY_FILTER',
+  filter,
+})
+const mapStateToProps = (
   state,
   ownprops
   ) => ({
@@ -46,20 +51,17 @@ const mapStateTolinkProps = (
       ownprops.filter ===
       state.visibilityFilter,
   })
-const mapDispatchToLinkProps = (
+const mapDispatchToProps = (
    dispatch,
    ownprops
   ) => ({
     onClick: () => {
-      dispatch({
-        type: 'SET_VISIBLITY_FILTER',
-        filter: ownprops.filter,
-      })
+      dispatch(setVisibilityFilter(ownprops.filter))
     },
   })
 const FilterLink = connect(
- mapStateTolinkProps,
- mapDispatchToLinkProps
+ mapStateToProps,
+ mapDispatchToProps
   )(Link)
 
 export default FilterLink
