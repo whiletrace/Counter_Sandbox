@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { v4 } from 'uuid'
+// it will be a function
 
 const addTodo = (text) => ({
   type: 'ADD_TODO',

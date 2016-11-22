@@ -1,6 +1,11 @@
-import ReactDOM from 'react-dom'
-import Main from 'components/Main'
-import Todo from 'components/Todo'
-import todoApp from 'redux/Todo_redux'
-	
+import React from 'react'
+import { render } from 'react-dom'
+import Root from './components/Root'
+import configureStore from 'redux/Configurestore'
 
+const store = configureStore()
+
+render(
+  <Root store = {store} />,
+  document.getElementById('root')
+)
