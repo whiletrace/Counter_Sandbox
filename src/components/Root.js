@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import TodoApp from './App'
+import { Router, Route, browserHistory } from 'react-router'
 
 const Root = ({ store }) => (
-     <Provider store = { store }>
-     <TodoApp />
+     <Provider store = { store } >
+     <Router history = { browserHistory } >
+      <Route path = "/" component = {TodoApp} />
+      </Router>
     </Provider>
 	)
 Root.propTypes = {
