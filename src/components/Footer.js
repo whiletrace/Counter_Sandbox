@@ -10,19 +10,19 @@ and apply the correct styling to it*/ }
         Show:
         {' '}
         <FilterLink
-          filter = "SHOW_ALL"
+          filter = "all"
         >
-         All
+         all
          </FilterLink>
          {' '}
         <FilterLink
-          filter = "SHOW_ACTIVE"
+          filter = "active"
         >
-         Active
+         active
          </FilterLink>
           {' '}
         <FilterLink
-          filter = "SHOW_COMPLETED"
+          filter = "completed"
         >
          completed
          </FilterLink>

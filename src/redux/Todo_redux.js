@@ -37,7 +37,8 @@ const todo = (state, action) => {
       return state
   }
 }
-const visibilityFilter = (
+ /*
+ const visibilityFilter = (
   state = 'SHOW_ALL',
   action
   ) => {
@@ -47,6 +48,7 @@ const visibilityFilter = (
     default: return state
   }
 }
+*/
 // this is original reducer that todo was extracted from
 // takes state which is an empty array and action as arguments
 const todos = (state = [], action) => {
@@ -74,7 +76,7 @@ const todos = (state = [], action) => {
 // combines the reducers todos, and visibility to one reducer named TodoApp
 export const todoApp = combineReducers({
   todos,
-  visibilityFilter,
+  // visibilityFilter,
 })
 // creates the redux store which is exported
 // export of the todos reducer

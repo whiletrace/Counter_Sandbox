@@ -1,5 +1,21 @@
-import { connect } from 'react-redux'
-import { Link } from 'components/Link'
+
+
+import { Link } from 'react-router'
+import React, { PropTypes } from 'react'
+/* const FilterLink = ({ filter, children }) => (
+  <Link
+    to={filter === 'all' ? '' : filter}
+    activeStyle = {{
+      textDecoration: 'none',
+      color: 'black',
+    }}
+    >
+    {children}
+    </Link>
+)
+
+*/
+
 /*
 class FilterLink extends React.Component {
   componentDidMount() {
@@ -33,17 +49,14 @@ class FilterLink extends React.Component {
       </Link>
       )
   }
-}
+
 FilterLink.contextTypes = {
   store: React.PropTypes.object
 }
 */
 
-const setVisibilityFilter = (filter) => ({
-  type: 'SET_VISIBLITY_FILTER',
-  filter,
-})
-const mapStateToProps = (
+
+/* const mapStateToProps = (
   state,
   ownprops
   ) => ({
@@ -63,5 +76,21 @@ const FilterLink = connect(
  mapStateToProps,
  mapDispatchToProps
   )(Link)
+  */
+const FilterLink = ({ filter, children }) => (
+      <Link
+        to ={ filter === 'all' ? '' : filter }
+        activeStyle = {{
+          textDecoration: 'none',
+          color: 'black ',
+        }}
+      >
+      {children}
+      </Link>
+    )
+FilterLink.propTypes = {
+  filter: PropTypes.string,
+  children: PropTypes.node,
+}
 
 export default FilterLink

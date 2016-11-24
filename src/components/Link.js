@@ -1,5 +1,5 @@
-import React from 'react'
-export const Link = ({
+/*import React, { PropTypes } from 'react'
+ export const Link = ({
   active,
   children,
   onClick,
@@ -28,7 +28,8 @@ export const Link = ({
 }
 
 Link.propTypes = {
-  active: React.PropTypes.bool,
-  children: React.PropTypes.node,
-  onClick: React.PropTypes.func,
+  active: PropTypes.bool,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
 }
+*/

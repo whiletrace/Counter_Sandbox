@@ -27,6 +27,9 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
+    historyApiFallback: {
+      index: 'index.html'
+    },
     contentBase: './dist'
   }
 }
