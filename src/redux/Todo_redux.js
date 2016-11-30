@@ -2,7 +2,6 @@
 // createSTore
 // and combine Reducers
 
-import { combineReducers } from 'redux'
 // this reducer was extracted from original reducer renamed todos
 // in doing so began implementing reducer compositional pattern
 // takes state and action as arguments governs individual todos
@@ -74,12 +73,34 @@ const todos = (state = [], action) => {
 }
 // using a built in redux function called combine reducers
 // combines the reducers todos, and visibility to one reducer named TodoApp
-export const todoApp = combineReducers({
-  todos,
-  // visibilityFilter,
-})
+
+
 // creates the redux store which is exported
 // export of the todos reducer
 // which is used in my testing module Todo_redux.spec.js
 export default todos
 
+// this is a selector function it prepares data to be
+// to be rendered by the ui
+
+export const getVisibleTodos = (state, filter) => {
+// switch using the filter  as an argument
+  switch (filter) {
+// in the case of SHOW_ALL
+    case 'all':
+// returns all the todos
+      return state
+// for the case SHOW_COMPLETED
+    case 'completed':
+// will return the todos that have the key completed with the value true
+      return state.filter(
+      t => t.completed)
+// In the case show active will show the todos
+// with the key completed with the value false
+    case 'active':
+      return state.filter(
+        t => !t.completed)
+    default:
+      throw new Error('Unknown filter: ${filter}.')
+  }
+}
