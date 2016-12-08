@@ -24,7 +24,7 @@ const byId = (state = {}, action) => {
     case 'TOGGLE_TODO':
       return {
         ...state,
-        [action.id]: singleTodo(state, [action.id], action),
+        [action.id]: singleTodo(state[action.id], action),
       }
     default:
       return state
