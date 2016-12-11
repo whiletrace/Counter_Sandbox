@@ -1,5 +1,12 @@
-import React from 'react'
+// module imports
+import React, { PropTypes } from 'react'
 import { Todo } from './ListItem'
+
+// presentational component
+// renders an unordered list containing the todos
+// maps each todos to the component Todo which is child of TodoList
+// props passed to component are todos and onTodoClick
+// event listener onClick executes onTodoClick
 export const TodoList = ({
   todos,
   onTodoClick,
@@ -15,6 +22,6 @@ export const TodoList = ({
    </ul>
 )
 TodoList.propTypes = {
-  todos: React.PropTypes.array,
-  onTodoClick: React.PropTypes.func,
+  todos: PropTypes.array,
+  onTodoClick: PropTypes.func,
 }

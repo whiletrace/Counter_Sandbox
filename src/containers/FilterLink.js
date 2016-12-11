@@ -2,19 +2,8 @@
 
 import { Link } from 'react-router'
 import React, { PropTypes } from 'react'
-/* const FilterLink = ({ filter, children }) => (
-  <Link
-    to={filter === 'all' ? '' : filter}
-    activeStyle = {{
-      textDecoration: 'none',
-      color: 'black',
-    }}
-    >
-    {children}
-    </Link>
-)
 
-*/
+// original implementation of filtering todos by reducer
 
 /*
 class FilterLink extends React.Component {
@@ -50,13 +39,18 @@ class FilterLink extends React.Component {
       )
   }
 
+// an example of declaring contextTypes in manual implemtation of Provider
+
+/*
 FilterLink.contextTypes = {
   store: React.PropTypes.object
 }
 */
 
+// a outdated react-router pattern implementation
 
-/* const mapStateToProps = (
+/*
+const mapStateToProps = (
   state,
   ownprops
   ) => ({
@@ -77,6 +71,16 @@ const FilterLink = connect(
  mapDispatchToProps
   )(Link)
   */
+
+// refactored so the router now handles filtering todos
+
+// Filterlink is component takes filter ie paramater from router and all children as arguments
+// uses Link imported from react router to render
+// uses all as the initial  url path or uses the filter as path
+// style prop styles link differently if it is selected
+// passing children so parent can specify children
+// see also Rootjs module uses WithRouter in conect func
+
 const FilterLink = ({ filter, children }) => (
       <Link
         to ={ filter === 'all' ? '' : filter }
@@ -92,5 +96,5 @@ FilterLink.propTypes = {
   filter: PropTypes.string,
   children: PropTypes.node,
 }
-
+// exported to Footer
 export default FilterLink

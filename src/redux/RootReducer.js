@@ -1,13 +1,10 @@
 import { combineReducers } from 'redux'
-import todos, * as fromTodos from './Todo_redux'
+import todos from './Todo_redux'
 // using a built in redux function called combine reducers
-// combines the reducers todos, and visibility to one reducer named todoApp
+// create a reducer (todoApp) bycombineing the reducers todos
 const todoApp = combineReducers({
   todos,
-  // visibilityFilter,
 })
 
+// the combined reducers are exported to module Configurestore
 export default todoApp
-
-export const getVisibleTodos = (state, filter) =>
-fromTodos.getVisibleTodos(state.todos, filter)

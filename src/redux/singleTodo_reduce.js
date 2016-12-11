@@ -35,4 +35,5 @@ const singleTodo = (state, action) => {
   }
 }
 
+// exported to Todo_Redux module
 export default singleTodo

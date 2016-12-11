@@ -1,12 +1,17 @@
+// module imports
 import React from 'react'
 import FilterLink from 'containers/Filterlink'
+
+// another stateless presentational component
+// creates a paragraph tag
+// which renders the links in the footer all active completed
+// FilterLink is the child component
+// FilterLink is a container component
+// that governs state and behavior when a link is clicked
+// filter is prop passed down from FilterLink
+// See FilterLink module
 export const Footer = () => (
   <p>
-{ /* A paragraph element is created using the filterlink component
-the filter props are given values here with three choices
-SHOW_ALL SHOW_ACTIVE SHOW_COMPLETED
-passing  currentFilter so each will know which filter is being executed
-and apply the correct styling to it*/ }
         Show:
         {' '}
         <FilterLink
