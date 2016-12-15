@@ -5,7 +5,7 @@ import Root from './components/Root'
 import configureStore from 'redux/Configurestore'
 import { fetchTodos } from 'redux/api/index'
 
-//calling fetchTodos 
+// calling fetchTodos
 fetchTodos('all').then(todos =>
    console.log(todos)
 	)
