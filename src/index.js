@@ -3,6 +3,12 @@ import React from 'react'
 import { render } from 'react-dom'
 import Root from './components/Root'
 import configureStore from 'redux/Configurestore'
+import { fetchTodos } from 'redux/api/index'
+
+//calling fetchTodos 
+fetchTodos('all').then(todos =>
+   console.log(todos)
+	)
 
 // Configurestore (which is the entirety of my redux store) is passed to const store
 // Root component which is entirety of react application is rendered with store passed

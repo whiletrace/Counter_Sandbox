@@ -5,6 +5,9 @@
 // if not null returns a json object serializedState
 // if error catch statement returns undefined
 // exports to Configurestore module
+
+// not using this module anymore however I will keep it around 
+// for reference 
 export const loadState = () => {
   try {
     const serializedState = localStorage.getItem('state')

@@ -3,7 +3,9 @@
 import todoApp from './RootReducer'
 import throttle from 'lodash/throttle'
 import { createStore } from 'redux'
-import { loadState, saveState } from 'localstorage'
+
+// import for modules neccessary for persistant state 
+// import { loadState, saveState } from 'localstorage'
 
 // Provides logging of redux store before action is dispatched, dispatched action, and next state
 const addLoggingToDispatch = (store) => {
@@ -33,16 +35,16 @@ const addLoggingToDispatch = (store) => {
 // throttle lets the savestate function only every 1000 miliseconds to not overload memory
 // returns store (redux state tree)
 const configureStore = () => {
-  const persistantState = loadState()
+// const persistantState = loadState()
   const store = createStore(
-    todoApp,
-    persistantState
+    todoApp
+// persistantState
   )
   if (process.env.NODE_ENV !== 'production') {
     store.dispatch = addLoggingToDispatch(store)
   }
   store.subscribe(throttle(() => {
-    saveState({
+   /* saveState */({
       todos: store.getState().todos,
     })
   }, 1000))
