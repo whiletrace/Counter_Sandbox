@@ -73,7 +73,7 @@ const allIds = (state = [], action) => {
 // maps state from allIds and calls a function on each createing a new array
 // containing the objects state objects returned by the byId reducer each with unique id passed
 // by the action creator
-const getAllTodos = (state) =>
+const getAllTodos = state =>
   state.allIds.map(id => state.byId[id])
 
 // using a built in redux function called combine reducers
@@ -106,7 +106,7 @@ export const getVisibleTodos = (state, filter) => {
       return allTodos.filter(
         t => !t.completed)
     default:
-      throw new Error('Unknown filter: ${filter}.')
+      throw new Error(`Unknown filter: ${filter}!`)
   }
 }
 

@@ -1,7 +1,7 @@
 // module imports
 import React from 'react'
 import { connect } from 'react-redux'
-import { addTodo } from 'Actions/actions'
+import { addTodo } from '../Actions/actions'
 
 // addTodo controls the adding todo by creating a
 // input field
@@ -15,24 +15,26 @@ import { addTodo } from 'Actions/actions'
 let AddTodo = ({ dispatch }) => {
   let input
   return (
-  <div>
-    <input ref = {node => {
-      input = node
-    }}
-    />
-        <button onClick = {() => {
+    <div>
+      <input
+        ref={(node) => {
+          input = node
+        }}
+      />
+      <button
+        onClick={() => {
           dispatch(addTodo(input.value))
           input.value = ''
         }}
-        >
-        Add Todo
-        </button>
-  </div>
+      >
+          Add Todo
+      </button>
+    </div>
   )
 }
 
 AddTodo.propTypes = {
-  dispatch: React.PropTypes.func,
+  dispatch: React.PropTypes.func.isRequired,
 }
 
 AddTodo = connect()(AddTodo)

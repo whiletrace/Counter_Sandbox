@@ -10,14 +10,14 @@
  // as true or false
  // if true style decorates with line-through
  // if false no text decoration
- export const Todo = ({
+ const Todo = ({
   onClick,
   completed,
   text,
 }) => (
   <li
-    onClick= {onClick}
-    style = {{
+    onClick={onClick}
+    style={{
       textDecoration:
           completed ?
           'line-through' :
@@ -29,7 +29,8 @@
            )
 
  Todo.propTypes = {
-   onClick: PropTypes.func,
-   text: PropTypes.string,
-   completed: PropTypes.bool,
+   onClick: PropTypes.func.isRequired,
+   text: PropTypes.string.isRequired,
+   completed: PropTypes.bool.isRequired,
  }
+ export default Todo

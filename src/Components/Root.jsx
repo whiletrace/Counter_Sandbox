@@ -1,9 +1,8 @@
 // module imports of note is Provider from react-redux library
 import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
-import TodoApp from './App'
 import { Router, Route, browserHistory } from 'react-router'
-
+import TodoApp from '../Components/App'
 // implentation of react- router and react-redux
 // creates  root component
 // child of Root is Provider component from react-redux
@@ -47,13 +46,14 @@ VisibleTodoList.contextTypes = {
 // Renders TodoApp
 
 const Root = ({ store }) => (
-     <Provider store = { store } >
-     <Router history = { browserHistory } >
-      <Route path = "/(:filter)" component = {TodoApp} />
-      </Router>
-    </Provider>
-	)
+  <Provider store={store} >
+    <Router history={browserHistory} >
+      <Route path="/(:filter)" component={TodoApp} />
+    </Router>
+  </Provider>
+)
 Root.propTypes = {
-  store: PropTypes.object,
+  store: PropTypes.shape({
+  }).isRequired,
 }
 export default Root

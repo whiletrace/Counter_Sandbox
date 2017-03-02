@@ -80,19 +80,19 @@ const FilterLink = connect(
 // see also Rootjs module uses WithRouter in conect func
 
 const FilterLink = ({ filter, children }) => (
-      <Link
-        to ={ filter === 'all' ? '' : filter }
-        activeStyle = {{
-          textDecoration: 'none',
-          color: 'black ',
-        }}
-      >
-      {children}
-      </Link>
+  <Link
+    to={filter === 'all' ? '' : filter}
+    activeStyle={{
+      textDecoration: 'none',
+      color: 'black ',
+    }}
+  >
+    {children}
+  </Link>
     )
 FilterLink.propTypes = {
-  filter: PropTypes.string,
-  children: PropTypes.node,
+  filter: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 }
 // exported to Footer
 export default FilterLink

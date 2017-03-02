@@ -1,9 +1,10 @@
 // module imports of note is withRouter
-import { connect } from 'react-redux'
-import { TodoList } from 'components/TodoList'
-import { toggleTodo } from 'Actions/actions'
 import { withRouter } from 'react-router'
-import * as fromTodos from 'redux/Todo_redux'
+import { connect } from 'react-redux'
+import * as fromTodos from '../redux/Todo_redux'
+import TodoList from '../Components/TodoList'
+import { toggleTodo } from '../Actions/actions'
+
 
 // Original implementation of VisibleTodoList
 
@@ -98,7 +99,7 @@ const mapStateToProps = (state, { params }) => ({
 // and lets component dispatch actions
 const VisibleTodoList = withRouter(connect(
  mapStateToProps,
- { onTodoClick: toggleTodo }
+ { onTodoClick: toggleTodo },
   )(TodoList))
 
 // exported to module App

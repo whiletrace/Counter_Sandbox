@@ -1,8 +1,8 @@
 // module imports of note are todoApp
 // also loadState, and saveState functions
+import { createStore } from 'redux'
 import todoApp from './RootReducer'
 // import throttle from 'lodash/throttle'
-import { createStore } from 'redux'
 // import { loadState, saveState } from 'localstorage'
 
 // Provides logging of redux store before action is dispatched, dispatched action, and next state
@@ -33,11 +33,11 @@ const addLoggingToDispatch = (store) => {
 // throttle lets the savestate function only every 1000 miliseconds to not overload memory
 // returns store (redux state tree)
 const configureStore = () => {
-// commenting out all code dealing with persistant local state because starting to work 
+// commenting out all code dealing with persistant local state because starting to work
 // async data and will be setting up a fake backend however want to keep the patterns for reference
 //  const persistantState = loadState()
   const store = createStore(
-    todoApp
+    todoApp,
 //    persistantState
   )
   if (process.env.NODE_ENV !== 'production') {
@@ -50,7 +50,7 @@ const configureStore = () => {
   }, 1000))
 */
   return store
-} 
+}
 
 // exported to src/index
 export default configureStore
