@@ -6,30 +6,33 @@ import todoApp from './RootReducer'
 // import { loadState, saveState } from 'localstorage'
 
 // Provides logging of redux store before action is dispatched, dispatched action, and next state
-const addLoggingToDispatch = (store) => {
-  const rawDispatch = store.dispatch
-  if (!console.group) {
-    return rawDispatch
+const logging = store => (loggingDispatch) => {
+  if (!console.group) { // eslint-disable-line no-console
+    return loggingDispatch
   }
   return (action) => {
-    console.group(action.type)
-    console.log('%c prev state', 'color: gray', store.getState())
-    console.log('%c action', 'color: blue', action)
-    const returnValue = rawDispatch(action)
-    console.log('%c next state', 'color: green', store.getState())
-    console.groupEnd(action.type)
+    console.group(action.type) // eslint-disable-line no-console
+    console.log('%c prev state', 'color: gray', store.getState()) // eslint-disable-line no-console
+    console.log('%c action', 'color: blue', action) // eslint-disable-line no-console
+    const returnValue = loggingDispatch(action) // eslint-disable-line no-console
+    console.log('%c next state', 'color: green', store.getState()) // eslint-disable-line no-console
+    console.groupEnd(action.type) // eslint-disable-line no-console
     return returnValue
   }
 }
 
-const addPromiseSupportToDispatch = (store) => {
-  const rawDispatch = store.dispatch
-  return (action) => {
-    if (typeof action.then === 'function') {
-      return action.then(rawDispatch)
-    }
-    return rawDispatch(action)
+const promise = store => nextDispatch => (action) => { // eslint-disable-line no-unused-vars
+  if (typeof action.then === 'function') {
+    return action.then(nextDispatch)
   }
+  return nextDispatch(action)
+}
+
+
+const wrapDispatchWithMiddlewares = (store, middlewares) => {
+  middlewares.slice().reverse().forEach(middleware =>
+     (store.dispatch = middleware(store)(store.dispatch)), // eslint-disable-line no-param-reassign
+    )
 }
 // creates store and implements persistant state within local memory
 // uses browser local storage api load state and sets as a constant
@@ -46,20 +49,13 @@ const configureStore = () => {
 // commenting out all code dealing with persistant local state because starting to work
 // async data and will be setting up a fake backend however want to keep the patterns for reference
 // const persistantState = loadState()
-  const store = createStore(
-    todoApp,
-//    persistantState
-  )
+  const store = createStore(todoApp)
+
+  const middlewares = [promise]
   if (process.env.NODE_ENV !== 'production') {
-    store.dispatch = addLoggingToDispatch(store)
+    middlewares.push(logging)
   }
-  store.dispatch = addPromiseSupportToDispatch(store)
-/*  store.subscribe(throttle(() => {
-    saveState({
-      todos: store.getState().todos,
-    })
-  }, 1000))
-*/
+  wrapDispatchWithMiddlewares(store, middlewares)
   return store
 }
 
