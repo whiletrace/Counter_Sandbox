@@ -44,6 +44,7 @@ VisibleTodoList.contextTypes = {
 // router is source for filter passed by params
 // Route path denotes to match url depending what filter is selected
 // Renders TodoApp
+// visible todos are now handled via the router via rams in route config
 
 const Root = ({ store }) => (
   <Provider store={store} >
@@ -52,8 +53,10 @@ const Root = ({ store }) => (
     </Router>
   </Provider>
 )
+
 Root.propTypes = {
   store: PropTypes.shape({
   }).isRequired,
 }
+
 export default Root

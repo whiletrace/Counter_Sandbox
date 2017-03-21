@@ -1,5 +1,5 @@
 // module imports
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../Actions/actions'
 
@@ -34,7 +34,7 @@ let AddTodo = ({ dispatch }) => {
 }
 
 AddTodo.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
 AddTodo = connect()(AddTodo)

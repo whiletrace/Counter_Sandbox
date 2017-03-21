@@ -33,4 +33,5 @@
    text: PropTypes.string.isRequired,
    completed: PropTypes.bool.isRequired,
  }
+
  export default Todo

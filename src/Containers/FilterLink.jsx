@@ -81,7 +81,7 @@ const FilterLink = connect(
 
 const FilterLink = ({ filter, children }) => (
   <Link
-    to={filter === 'all' ? '' : filter}
+    to={filter === 'all' ? 'all' : filter}
     activeStyle={{
       textDecoration: 'none',
       color: 'black ',

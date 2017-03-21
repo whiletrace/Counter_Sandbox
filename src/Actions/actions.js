@@ -1,7 +1,6 @@
- // import neccessary modules
- // v4 creates individual id keys for each todo
+// v4 creates individual id keys for each todo
  import { v4 } from 'uuid'
-
+ import * as api from '../Api/index'
 // setvisi
 
 /* export const setVisibilityFilter = (filter) => ({
@@ -19,8 +18,23 @@
    text,
  })
 
+// RecieveTodos action is called by fetchTodos
+ const receiveTodos = (filter, response) => ({
+   type: 'RECEIVE_TODOS',
+   response,
+   filter,
+ })
+
+// Asnchronous action creator
+// resolves promise from api to the action object
+ export const fetchTodos = filter =>
+   api.fetchTodos(filter).then(response =>
+   receiveTodos(filter, response),
+ )
+
 // toggleTodo action is dispached by VisibleTodoList container module
  export const toggleTodo = id => ({
    type: 'TOGGLE_TODO',
    id,
  })
+

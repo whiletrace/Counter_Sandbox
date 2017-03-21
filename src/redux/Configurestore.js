@@ -21,6 +21,16 @@ const addLoggingToDispatch = (store) => {
     return returnValue
   }
 }
+
+const addPromiseSupportToDispatch = (store) => {
+  const rawDispatch = store.dispatch
+  return (action) => {
+    if (typeof action.then === 'function') {
+      return action.then(rawDispatch)
+    }
+    return rawDispatch(action)
+  }
+}
 // creates store and implements persistant state within local memory
 // uses browser local storage api load state and sets as a constant
 // redux store is created with the persistant state const which calls the loadState func
@@ -35,7 +45,7 @@ const addLoggingToDispatch = (store) => {
 const configureStore = () => {
 // commenting out all code dealing with persistant local state because starting to work
 // async data and will be setting up a fake backend however want to keep the patterns for reference
-//  const persistantState = loadState()
+// const persistantState = loadState()
   const store = createStore(
     todoApp,
 //    persistantState
@@ -43,6 +53,7 @@ const configureStore = () => {
   if (process.env.NODE_ENV !== 'production') {
     store.dispatch = addLoggingToDispatch(store)
   }
+  store.dispatch = addPromiseSupportToDispatch(store)
 /*  store.subscribe(throttle(() => {
     saveState({
       todos: store.getState().todos,

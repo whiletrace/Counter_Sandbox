@@ -16,5 +16,6 @@ const TodoApp = () => (
     <Footer />
   </div>
   )
+
 // module exported to Root.js
 export default TodoApp
