@@ -14,6 +14,8 @@
 // if the action object id being evaluated and the state object id
 // will return the opposite value of the completed key of the state object
 // default export as singleTodo
+
+// this is no longer implemented and no and all logic is handled by Todo_Redux longer exported
 const singleTodo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -36,4 +38,4 @@ const singleTodo = (state, action) => {
 }
 
 // exported to Todo_Redux module
-export default singleTodo
+

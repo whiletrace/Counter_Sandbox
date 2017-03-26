@@ -15,7 +15,7 @@
   completed,
   text,
 }) => (
-  <li
+  <li // eslint-disable-line jsx-a11y/no-static-element-interactions
     onClick={onClick}
     style={{
       textDecoration:

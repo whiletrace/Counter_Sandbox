@@ -18,6 +18,11 @@
    text,
  })
 
+ export const requestTodos = filter => ({
+   type: 'REQUEST_TODOS',
+   filter,
+ })
+
 // RecieveTodos action is called by fetchTodos
  const receiveTodos = (filter, response) => ({
    type: 'RECEIVE_TODOS',

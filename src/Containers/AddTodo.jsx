@@ -12,7 +12,7 @@ import { addTodo } from '../Actions/actions'
 // action is dispatches addTodo function as input.value
 // store is subscribed via the connect function from react-redux
 
-let AddTodo = ({ dispatch }) => {
+let AddTodo = ({ dispatch }) => { // eslint-disable-line import/no-mutable-exports
   let input
   return (
     <div>
