@@ -1,6 +1,7 @@
 // v4 creates individual id keys for each todo
  import { v4 } from 'uuid'
  import * as api from '../Api/index'
+ import { getIsFetching } from '../redux/RootReducer'
 // setvisi
 
 /* export const setVisibilityFilter = (filter) => ({
@@ -18,24 +19,36 @@
    text,
  })
 
- export const requestTodos = filter => ({
-   type: 'REQUEST_TODOS',
-   filter,
- })
-
-// RecieveTodos action is called by fetchTodos
- const receiveTodos = (filter, response) => ({
-   type: 'RECEIVE_TODOS',
-   response,
-   filter,
- })
-
-// Asnchronous action creator
+ // Asnchronous action creator
 // resolves promise from api to the action object
- export const fetchTodos = filter =>
-   api.fetchTodos(filter).then(response =>
-   receiveTodos(filter, response),
- )
+// now a function with a callback argument or a thunk
+ export const fetchTodos = filter => (dispatch, getState) => {
+   if (getIsFetching(getState(), filter)) {
+     return Promise.resolve()
+   }
+   dispatch({
+     type: 'FETCH_TODOS_REQUEST',
+     filter,
+   })
+
+   return api.fetchTodos(filter).then(
+     (response) => {
+       dispatch({
+         type: 'FETCH_TODOS_SUCCESS',
+         response,
+         filter,
+       })
+     },
+   (error) => {
+     dispatch({
+       type: 'FETCH_TODOS_FAILURE',
+       filter,
+       message: error.message || 'something went wrong',
+     })
+   },
+   )
+ }
+
 
 // toggleTodo action is dispached by VisibleTodoList container module
  export const toggleTodo = id => ({

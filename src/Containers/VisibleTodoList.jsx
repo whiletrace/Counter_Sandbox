@@ -2,9 +2,10 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
-import { getVisibleTodos, getIsFetching } from '../redux/RootReducer'
+import { getVisibleTodos, getErrorMessage, getIsFetching } from '../redux/RootReducer'
 import * as actions from '../Actions/actions'
 import TodoList from '../Components/TodoList'
+import FetchError from '../Components/FetchError'
 
 // Class component enhances pres component TodoList
 // provides data fetching logic
@@ -24,22 +25,28 @@ class VisibleTodoList extends Component {
 // common code between lifecycle hooks extracted to create a new method
 // fetchTodos and recieveodos imported as namespace imports from actions
   fetchData() {
-    const { filter, requestTodos, fetchTodos } = this.props
-    fetchTodos(filter)
-    requestTodos(filter)
+    const { filter, fetchTodos } = this.props
+    fetchTodos(filter).then(() => console.log('Yeah these are loaded!')) // eslint-disable-line no-console
   }
 
   render() {
-    const { toggleTodo, todos, isFetching } = this.props
+    const { toggleTodo, todos, errorMessage, isFetching } = this.props
     if (isFetching && !todos.length) {
       return <p> loading...</p>
+    }
+    if (errorMessage && !todos.length) {
+      return (
+        <FetchError
+          message={errorMessage}
+          onRetry={() => this.fetchData()}
+        />
+      )
     }
     return (
       <TodoList
         todos={todos}
         onTodoClick={toggleTodo}
         isFetching={isFetching}
-
       />
     )
   }
@@ -53,6 +60,7 @@ const mapStateToProps = (state, { params }) => {
   const filter = params.filter || 'all'
   return {
     todos: getVisibleTodos(state, filter),
+    errorMessage: getErrorMessage(state, filter),
     isFetching: getIsFetching(state, filter),
     filter,
   }
@@ -67,11 +75,16 @@ VisibleTodoList.propTypes = {
     }).isRequired,
   ).isRequired,
   isFetching: PropTypes.bool.isRequired,
-  requestTodos: PropTypes.func.isRequired,
   filter: PropTypes.oneOf(['all', 'active', 'completed']).isRequired,
   fetchTodos: PropTypes.func.isRequired,
   toggleTodo: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
 }
+
+VisibleTodoList.defaultProps = {
+  errorMessage: 'This just blew up',
+}
+
 
 // generating a container component that injects the redux state tree
 // map dispatch to props shorthand

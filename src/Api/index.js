@@ -24,6 +24,9 @@ const delay = ms =>
 
 export const fetchTodos = filter => // eslint-disable-line import/prefer-default-export
   delay(500).then(() => {
+    if (Math.random() > 0.5) {
+      throw new Error('This just blew up')
+    }
     switch (filter) {
       case 'all':
         return fakeDatabase.todos

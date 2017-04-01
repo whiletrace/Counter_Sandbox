@@ -43,6 +43,9 @@ const todos = combineReducers({
   listByFilter,
 })
 
+// exported to RootReducer
+export default todos
+
 // this is a selector function it prepares data to be
 // to be rendered by the ui
 // switch using the filter  as an argument
@@ -54,6 +57,7 @@ const todos = combineReducers({
 // In the case show active will show the todos
 // with the key completed with the value false
 // exported to Module VisibleTodolist
+
 export const getVisibleTodos = (state, filter) => {
   const ids = fromList.getIds(state.listByFilter[filter])
   return ids.map(id => fromById.getTodo(state.byId, id))
@@ -62,5 +66,6 @@ export const getVisibleTodos = (state, filter) => {
 export const getIsFetching = (state, filter) =>
   fromList.getIsFetching(state.listByFilter[filter])
 
-// exported to RootReducer
-export default todos
+export const getErrorMessage = (state, filter) =>
+  fromList.getErrorMessage(state.listByFilter[filter])
+
