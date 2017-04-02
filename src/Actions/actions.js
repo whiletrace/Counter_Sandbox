@@ -1,8 +1,9 @@
 // v4 creates individual id keys for each todo
- import { v4 } from 'uuid'
+ import { normalize } from 'normalizr'
  import * as api from '../Api/index'
  import { getIsFetching } from '../redux/RootReducer'
-// setvisi
+ import * as schema from './schema'
+
 
 /* export const setVisibilityFilter = (filter) => ({
   type: 'SET_VISIBLITY_FILTER',
@@ -13,11 +14,17 @@
 // The actions that are being dispatched
 // v4 is implemented by addTodo action to inject unique ids for each todo
 // addTodo is dispatched by AddTodo container module
- export const addTodo = text => ({
-   type: 'ADD_TODO',
-   id: v4(),
-   text,
- })
+ export const addTodo = text => dispatch =>
+   api.addTodo(text).then((response) => {
+     console.log( // eslint-disable-line no-console
+      'normalized response',
+      normalize(response, schema.todo),
+    )
+     dispatch({
+       type: 'ADD_TODO_SUCCESS',
+       response: normalize(response, schema.todo),
+     })
+   })
 
  // Asnchronous action creator
 // resolves promise from api to the action object
@@ -33,9 +40,13 @@
 
    return api.fetchTodos(filter).then(
      (response) => {
+       console.log( // eslint-disable-line no-console
+      'normalized response',
+      normalize(response, schema.arrayOfTodos),
+    )
        dispatch({
          type: 'FETCH_TODOS_SUCCESS',
-         response,
+         response: normalize(response, schema.arrayOfTodos),
          filter,
        })
      },
@@ -51,8 +62,12 @@
 
 
 // toggleTodo action is dispached by VisibleTodoList container module
- export const toggleTodo = id => ({
-   type: 'TOGGLE_TODO',
-   id,
- })
+
+ export const toggleTodo = id => dispatch =>
+  api.toggleTodo(id).then((response) => {
+    dispatch({
+      type: 'TOGGLE_TODO_SUCCESS',
+      response: normalize(response, schema.todo),
+    })
+  })
 

@@ -2,10 +2,10 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
-import { getVisibleTodos, getErrorMessage, getIsFetching } from '../redux/RootReducer'
-import * as actions from '../Actions/actions'
 import TodoList from '../Components/TodoList'
 import FetchError from '../Components/FetchError'
+import { getVisibleTodos, getErrorMessage, getIsFetching } from '../redux/RootReducer'
+import * as actions from '../Actions/actions'
 
 // Class component enhances pres component TodoList
 // provides data fetching logic
@@ -65,6 +65,10 @@ const mapStateToProps = (state, { params }) => {
     filter,
   }
 }
+
+VisibleTodoList.defaultProps = {
+  errorMessage: null,
+}
 // Props validation
 VisibleTodoList.propTypes = {
   todos: PropTypes.arrayOf(
@@ -80,11 +84,6 @@ VisibleTodoList.propTypes = {
   toggleTodo: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 }
-
-VisibleTodoList.defaultProps = {
-  errorMessage: 'This just blew up',
-}
-
 
 // generating a container component that injects the redux state tree
 // map dispatch to props shorthand

@@ -44,6 +44,8 @@
     "cheerio": "^0.22.0",
     "lodash": "^4.17.2",
     "node-uuid": "^1.4.7",
+    "normalizer": "^1.2.7",
+    "normalizr": "^3.2.2",
     "react": "^0.14.8",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.6",
