@@ -4,17 +4,17 @@
         "experimentalObjectRestSpread": true
        }
         },
-  "extends" : [
-      "airbnb"
-  ],
-  "env"     : {
+  "extends": "airbnb",
+  "env": {
     "browser" : true
-
   },
   "rules": {
     "semi" : [2, "never"],
     "max-len": [2, 160, 2],
     "no-var": 2
   },
+  "import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": true}],
 
-  }
+
+}
+  

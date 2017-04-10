@@ -1,55 +1,35 @@
-// module imports of note are todoApp
-// also loadState, and saveState functions
+
+import { createStore, applyMiddleware, compose } from 'redux'
+import { createLogger } from 'redux-logger'
 import todoApp from './RootReducer'
-import throttle from 'lodash/throttle'
-import { createStore } from 'redux'
 
-// import for modules neccessary for persistant state
-// import { loadState, saveState } from 'localstorage'
-
-// Provides logging of redux store before action is dispatched, dispatched action, and next state
-const addLoggingToDispatch = (store) => {
-  const rawDispatch = store.dispatch
-  if (!console.group) {
-    return rawDispatch
+// Thunk middleware can import from redux-thunk but will keep this for reference of pattern
+// curried function that allows redux to recognize and dispatch functions as actions
+const thunk = store => next => (action) => {
+  if (typeof action === 'function') {
+    return action(store.dispatch, store.getState)
   }
-  return (action) => {
-    console.group(action.type)
-    console.log('%c prev state', 'color: gray', store.getState())
-    console.log('%c action', 'color: blue', action)
-    const returnValue = rawDispatch(action)
-    console.log('%c next state', 'color: green', store.getState())
-    console.groupEnd(action.type)
-    return returnValue
-  }
+  return next(action)
 }
-// creates store and implements persistant state within local memory
-// uses browser local storage api load state and sets as a constant
-// redux store is created with the persistant state const which calls the loadState func
-// and the todoApp module imported from the root reducer
-// if statement: only log redux store if not producion
-// save state fuchtion is called with argument of todos which is an object with a key value pair
-// with todos as a key
-// value is a method which gets state from the store. of todos defined in Todo_Redux
-// then passed to RootReducer
-// throttle lets the savestate function only every 1000 miliseconds to not overload memory
-// returns store (redux state tree)
+
+// wraps redux store in middlewares Thunk and redux-logger(if it is not a production env)
+// Redux Devtools Chrome extension
+// creates and reurns the redux store
 const configureStore = () => {
-// const persistantState = loadState()
-  const store = createStore(
-    todoApp
-// persistantState
-  )
+  const middlewares = [thunk]
   if (process.env.NODE_ENV !== 'production') {
-    store.dispatch = addLoggingToDispatch(store)
+    middlewares.push(createLogger())
   }
-  store.subscribe(throttle(() => {
-    /* saveState */({
-      todos: store.getState().todos,
-    })
-  }, 1000))
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose // eslint-disable-line no-underscore-dangle
+  const store = createStore(
+    todoApp,
+    composeEnhancers(
+    applyMiddleware(...middlewares),
+    ),
+  )
 
   return store
 }
+
 // exported to src/index
 export default configureStore
