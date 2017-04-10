@@ -3,8 +3,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { createLogger } from 'redux-logger'
 import todoApp from './RootReducer'
 
-
-// Thunk middleware can import from redux-thunk but will keep this for reference
+// Thunk middleware can import from redux-thunk but will keep this for reference of pattern
+// curried function that allows redux to recognize and dispatch functions as actions
 const thunk = store => next => (action) => {
   if (typeof action === 'function') {
     return action(store.dispatch, store.getState)
@@ -12,6 +12,9 @@ const thunk = store => next => (action) => {
   return next(action)
 }
 
+// wraps redux store in middlewares Thunk and redux-logger(if it is not a production env)
+// Redux Devtools Chrome extension
+// creates and reurns the redux store
 const configureStore = () => {
   const middlewares = [thunk]
   if (process.env.NODE_ENV !== 'production') {

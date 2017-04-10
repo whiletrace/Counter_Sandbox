@@ -1,15 +1,10 @@
-// module imports
 import React from 'react'
 import FilterLink from '../Containers/FilterLink'
 
-// another stateless presentational component
-// creates a paragraph tag
-// which renders the links in the footer all active completed
-// FilterLink is the child component
-// FilterLink is a container component
-// that governs state and behavior when a link is clicked
+
+// renders the links in the footer all active completed
+// logic provided by Filterlink
 // filter is prop passed down from FilterLink
-// See FilterLink module
 const Footer = () => (
   <p>
     Show:
@@ -33,4 +28,5 @@ const Footer = () => (
     </FilterLink>
   </p>
 )
+// exported to App.jsx
 export default Footer

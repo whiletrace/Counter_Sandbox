@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 
+// React component for handleing errors retrieving api data
 const FetchError = ({
   message,
   onRetry,
@@ -14,5 +15,5 @@ FetchError.propTypes = {
   message: PropTypes.string.isRequired,
   onRetry: PropTypes.func.isRequired,
 }
-
+// component exported to and rendered by VisibleTodolist
 export default FetchError

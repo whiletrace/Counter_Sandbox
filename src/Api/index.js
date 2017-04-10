@@ -1,3 +1,4 @@
+// v4 is implemented by addTodo action to inject unique ids for each todo
 import { v4 } from 'node-uuid'
 
 // This is a fake in-memory implementation of something
@@ -22,6 +23,8 @@ const fakeDatabase = {
 const delay = ms =>
   new Promise(resolve => setTimeout(resolve, ms))
 
+// returns fake database todos as a promise just like a rest api
+// also throws a random error to test api error handleing
 export const fetchTodos = filter => // eslint-disable-line import/prefer-default-export
   delay(500).then(() => {
     if (Math.random() > 0.5) {
@@ -38,7 +41,7 @@ export const fetchTodos = filter => // eslint-disable-line import/prefer-default
         throw new Error(`Unknown filter: ${filter}`)
     }
   })
-
+// allows todos to be added to fake database lookup table
 export const addTodo = text =>
   delay(500).then(() => {
     const todo = {
@@ -50,6 +53,7 @@ export const addTodo = text =>
     return todo
   })
 
+// allows the todos to be toggled and state updated in fake database
 export const toggleTodo = id =>
   delay(500).then(() => {
     const todo = fakeDatabase.todos.find(t => t.id === id)

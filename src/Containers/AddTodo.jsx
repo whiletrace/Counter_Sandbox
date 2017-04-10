@@ -3,11 +3,9 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { addTodo } from '../Actions/actions'
 
-// addTodo controls the adding todo by creating a
-// input field
-// a button
+// addTodo logic the adding todo by creating a
+// input field and button
 // button has a onClick event listener
-
 // if add button is clicked
 // action is dispatches addTodo function as input.value
 // store is subscribed via the connect function from react-redux
@@ -36,6 +34,8 @@ let AddTodo = ({ dispatch }) => { // eslint-disable-line import/no-mutable-expor
 AddTodo.propTypes = {
   dispatch: PropTypes.func.isRequired,
 }
-
+// creates new AddTodo that is connected redux store
 AddTodo = connect()(AddTodo)
+
+// exported to Components/App.jsx
 export default AddTodo

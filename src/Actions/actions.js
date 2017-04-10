@@ -1,18 +1,11 @@
-// v4 creates individual id keys for each todo
+
  import { normalize } from 'normalizr'
  import * as api from '../Api/index'
  import { getIsFetching } from '../redux/RootReducer'
  import * as schema from './schema'
 
-
-/* export const setVisibilityFilter = (filter) => ({
-  type: 'SET_VISIBLITY_FILTER',
-  filter,
-})
-*/
-
 // The actions that are being dispatched
-// v4 is implemented by addTodo action to inject unique ids for each todo
+
 // addTodo is dispatched by AddTodo container module
  export const addTodo = text => dispatch =>
    api.addTodo(text).then((response) => {
@@ -26,7 +19,7 @@
      })
    })
 
- // Asnchronous action creator
+// Asnchronous action creator
 // resolves promise from api to the action object
 // now a function with a callback argument or a thunk
  export const fetchTodos = filter => (dispatch, getState) => {

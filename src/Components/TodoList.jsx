@@ -1,4 +1,4 @@
-// module imports
+
 import React, { PropTypes } from 'react'
 import Todo from './ListItem'
 
@@ -33,4 +33,5 @@ TodoList.propTypes = {
   onTodoClick: PropTypes.func.isRequired,
 }
 
+// exports to Containers/VisibleTodList.jsx
 export default TodoList
