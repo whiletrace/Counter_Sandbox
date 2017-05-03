@@ -42,6 +42,7 @@
   "dependencies": {
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "cheerio": "^0.22.0",
+    "express": "^4.15.2",
     "lodash": "^4.17.2",
     "node-uuid": "^1.4.7",
     "normalizer": "^1.2.7",
@@ -53,6 +54,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.0",
     "redux-promise": "^0.5.3",
+    "sqlite3": "^3.1.8",
     "uuid": "^3.0.0"
   },
   "directories": {
