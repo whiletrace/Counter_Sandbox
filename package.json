@@ -4,6 +4,7 @@
   "description": "A place for testing react goodness",
   "main": "index.js",
   "scripts": {
+    "sqlite3-setup": "sqlite3 src/Real_api/data/todo.sqlite3 --init src/Real_api/models/schema-sqlite3.sql",
     "eslint": "eslint --format node_modules/eslint-stylish-config/stylish.js file.js",
     "start": "webpack-dev-server --inline --hot",
     "compile": "webpack",
