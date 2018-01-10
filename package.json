@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "sqlite3-setup": "sqlite3 ./src/Real_api/data/Tododb.sqlite3 --init ./src/Real_api/models/schema_sqlite3.sql",
-    "start-sqlite3": "SQLITE_FILE=./src/Real_api/data/Tododb.sqlite3 NOTES_MODEL=./src/Real_api/models/todos_sqlite3 node ./src/Real_api/bin/www",
-    "api": " node ./src/Real_api/bin/www",
+    "start-sqlite3": "SQLITE_FILE=./src/Real_api/data/Tododb.sqlite3 Todos_MODEL=./src/Real_api/models/todos_sqlite3 node ./src/Real_api/bin/www",
+    "start": "node ./src/Real_api/bin/www",
     "eslint": "eslint --format node_modules/eslint-stylish-config/stylish.js file.js",
-    "start": "webpack-dev-server --inline --hot",
+    "todo": "webpack-dev-server --inline --hot",
     "compile": "webpack",
     "test": "mocha --require babel-core/register --require ./tests/setup.js --recursive tests/**/*.spec.js",
     "test:debug": "npm run test -- debug",
@@ -23,7 +23,8 @@
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
-    "chai-enzyme": "^0.4.1",
+    "chai-enzyme": "^0.4.2",
+    "cheerio": "^0.19.0",
     "enzyme": "^2.1.0",
     "eslint": "^3.16.1",
     "eslint-config-airbnb": "^14.1.0",
@@ -45,6 +46,7 @@
   },
   "dependencies": {
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "cheerio": "^0.22.0",
     "express": "^4.15.3",
@@ -60,8 +62,10 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.0",
     "redux-promise": "^0.5.3",
+    "rotating-file-stream": "^1.2.2",
     "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
-    "uuid": "^3.0.0"
+    "uuid": "^3.0.0",
+    "winston": "^2.3.1"
   },
   "directories": {
     "test": "tests"
