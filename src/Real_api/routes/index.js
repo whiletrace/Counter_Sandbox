@@ -1,4 +1,3 @@
-'use strict'
 
 const api = module.exports = require('express').Router()
 var models = require('../models/todos_sqlite3')

@@ -1,16 +1,16 @@
-var sqlite3 = require('sqlite3').verbose()
-var util= require('util')
-var logger = require('../logger')
-var debug = require('debug')('Real_api:todos_sqlite3')
-var error = require('debug')('todos:error')
+const sqlite3 = require('sqlite3').verbose()
+const util = require('util')
+const logger = require('../logger')
+const debug = require('debug')('Real_api:todos_sqlite3')
+const error = require('debug')('todos:error')
 
 const Todo = require('./todo')
 
 
-var db;  // database is stored here
+let db  // database is stored here
 
 /*
-promise pattern for reference 
+promise pattern for reference
 
 var promise = new Promise(function(resolve, reject) {
   // do a thing, possibly async, then…
@@ -32,49 +32,49 @@ promise.then(function(result) {
 });
 
 */
-// database connection 
+// database connection
 
-exports.connectDB = function() {  
+exports.connectDB = function start() {
   return new Promise((resolve, reject) => {
-     var dbfile ='./src/Real_api/data/Tododb.sqlite3'
-      db = new sqlite3.Database(dbfile, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE);
-    if(db) {
-    	resolve(logger.info('db was created and is open at' + dbfile))
-
+    const dbfile = './src/Real_api/data/Tododb.sqlite3'
+    db = new sqlite3.Database(dbfile, sqlite3.OPEN_READWRITE || sqlite3.OPEN_CREATE)
+    if (db) {
+      resolve(logger.info(`db was created and is open at ${dbfile}`))
     } else {
-    	reject(error)
+      reject(error)
     }
   })
 }
 
 // database connection and query test
-exports.testWrite = function () {
- return exports.connectDB().then(function(){
-   db.all('SELECT * FROM todos', function (error, rows) {
-    if (error) {
-        logger.error(error);
-    } else {
-        rows.forEach(function (row) {
-            logger.info(row);
-        });
+exports.testWrite = function test() {
+  return exports.connectDB().then(() => {
+    db.all('SELECT * FROM todos', (err, rows) => {
+      if (err) {
+        logger.error(error)
+      } else {
+        const arrayOfTodo = []
+        rows.forEach((row) => {
+          arrayOfTodo.push(row)
+        })
+        logger.info(arrayOfTodo)
       }
-   });
-   db.close()
- })
+    })
+    db.close()
+  })
 }
-
 exports.testWrite()
 
-// create 
-exports.create = function(id, body, completed){
-  return exports.connectDB().then(function(){
-    var todo = new Todo(id, body, completed);
+// create
+exports.create = function(id, body, completed) {
+  return exports.connectDB().then(() => {
+    const todo = new Todo(id, body, completed)
     return new Promise((resolve, reject) => {
-      db.run('INSERT INTO todos(id, body, completed) VALUES(?,?,?)',[id, body, completed],function(error){
-        if (error) {
-          reject(error)
+      db.run('INSERT INTO todos(id, body, completed) VALUES(?,?,?)', [id, body, completed], (err) => {
+        if (err) {
+          reject(err)
         } else {
-          logger.info('Create' + util.inspect(todo))
+          logger.info(`Create ${util.inspect(todo)}`)
           resolve(todo)
         }
       })
@@ -82,12 +82,57 @@ exports.create = function(id, body, completed){
   })
 }
 
-exports.read = function(id, body, completed){
+exports.read = function(id, body, completed) {
   return exports.connectDB().then(function(){
-    var todo = new Todo(id, body, completed);
     return new Promise((resolve,reject) => {
-      db.each('SELECT')
+      db.all('SELECT * FROM todos', [id, body, completed], function(err, row){
+        if (err) { 
+          reject(err)
+        } else if(!row) {
+          reject(new Error('the database could not get todos' )) 
+         } else {
+          var todo = new Todo(row.id, row.body, row.completed);
+          var todos =[];
+           row.forEach(function(row){
+
+            todos.push(row)
+            return todos;
+            })
+          resolve(todos)
+          logger.info('READ ' + util.inspect(todos))
+          }
+        })
+      })
+    })
+}
+
+exports.update = function(id, body, completed) {
+  var todo = new Todo(row.id, row.body, row.completed);
+  return exports.connectDB().then(function(){
+    return new Promise((resolve,reject) => {
+      db.run('UPDATE todos'+'SET body=?, SET completed=?'+'WHERE id=?', [body, completed, id], function(err, row){
+        if (error) { 
+          reject(error)
+        } else {
+          logger.info('READ' + util.inspect(todo))
+          resolve(todo)
+        }
+      })
     })
   })
 }
 
+exports.destroy = function(id, body, completed){
+  return exports.connectDB().then(function(){
+    return new Promise((resolve,reject) => {
+      db.run('DELETE from todos WHERE id=?', [id], function(error){
+        if (error) {
+          reject(error)
+        } else {
+          logger.info('DESTROY' + id);
+          resolve()
+        }
+      })
+    })
+  })
+}

@@ -19,8 +19,7 @@ app.use('/Todoapi', require('./routes/index'))
 
 // server error handler
 app.use(function (err, req, res, next) {
-  logger.error((err.stack))
-  res.status(500).message('Something broke!')
+  logger.error(err.stack)
 })
  
 //uncaught exception handling
