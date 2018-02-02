@@ -1,33 +1,35 @@
-'use strict'
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-var fs = require('fs')
-var morgan = require('morgan')
-var logger = require('./logger')
-var error = require('debug')('Real-api:error')
-var debug = require('debug')('Real_api:app')
-const app = express();
 
-//logging middleware
+const express = require('express')
+const morgan = require('morgan')
+const logger = require('./logger')
+const error = require('debug')('Real_api:error')
+const debug = require('debug')('Real_api:app')
 
-app.use(morgan(process.env.REQUEST_LOG_FORMAT || 'common', { stream: logger.stream}
-))
+const app = express()
+
+// logging middleware
+app.use(morgan(process.env.REQUEST_LOG_FORMAT || 'common', { stream: logger.stream }))
 
 // mainroute
 app.use('/Todoapi', require('./routes/index'))
 
 // server error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   logger.error(err.stack)
-})
- 
-//uncaught exception handling
-process.on("uncaughtException", function(err){
-  if(!error.isOperational) { 
-   logger.error("uncaught exception @ " + (err.stack || err))
-  }
-  
+  next()
 })
 
-debug(module.exports = app)
+// body parsing middleware
+
+// uncaught exception handling
+process.on('uncaughtException', (err) => {
+  if (!error.isOperational) {
+    debug(logger.error(`uncaught exception @ ${err.stack || err}`))
+  }
+})
+
+app.set('port', process.env.PORT || 3000)
+
+const server = app.listen(app.get('port'), () => {
+  logger.info(`Express server listening on port ${server.address().port}`)
+})
